@@ -15,20 +15,3 @@ class DatabaseConnection:
     def __exit__(self, exc_type, exc_val, exc_tb):
         if self.conn:
             self.conn.commit()
-            self.conn.close()
-
-# Test the context manager
-if __name__ == "__main__":
-    db_name = "example.db"
-
-    # Create a users table and insert test data
-    with DatabaseConnection(db_name) as cursor:
-        cursor.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT)")
-        cursor.execute("INSERT INTO users (name) VALUES ('Alice'), ('Bob'), ('Charlie')")
-
-    # Read and print data
-    with DatabaseConnection(db_name) as cursor:
-        cursor.execute("SELECT * FROM users")
-        results = cursor.fetchall()
-        for row in results:
-            print(row)
